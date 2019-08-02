@@ -100,6 +100,11 @@ def init_flask_restful_routes(app):
     from server.api.application_apis import ApplicationAPI
     from server.api.users.authentication_apis import LoginAPI, OAuthAPI, AuthEmailAPI
     from server.api.health_check_api import HealthCheckAPI
+    from server.api.interests_api import (
+        InterestAPI,
+        UserInterestRelationshipAPI,
+        ProjectInterestRelationshipAPI,
+    )
     from server.api.license_apis import LicenseAPI, LicenceListAPI
     from server.api.mapping_apis import (
         MappingTaskAPI,
@@ -265,6 +270,29 @@ def init_flask_restful_routes(app):
     )
     api.add_resource(
         MappedTasksByUser, "/api/v1/project/<int:project_id>/mapped-tasks-by-user"
+    )
+    api.add_resource(
+        InterestAPI,
+        "/api/v1/interests",
+        endpoint="create_interest",
+        methods=["POST", "GET"],
+    )
+    api.add_resource(
+        InterestAPI, "/api/v1/interests/<int:interest_id>", methods=["PUT", "DELETE"]
+    )
+    api.add_resource(
+        UserInterestRelationshipAPI,
+        "/api/v1/interests/user",
+        endpoint="create_user_interest",
+        methods=["POST"],
+    )
+    api.add_resource(
+        UserInterestRelationshipAPI,
+        "/api/v1/interests/user/<int:user_id>",
+        methods=["GET"],
+    )
+    api.add_resource(
+        ProjectInterestRelationshipAPI, "/api/v1/interests/project", methods=["POST"]
     )
     api.add_resource(ProjectSummaryAPI, "/api/v1/project/<int:project_id>/summary")
     api.add_resource(TasksAsJson, "/api/v1/project/<int:project_id>/tasks")
